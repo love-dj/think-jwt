@@ -3,7 +3,7 @@
 ## 安装 
 使用composer管理依赖方式安装
 ```
-composer require love-dj/jwt-auth
+composer require love-dj/jwt-auth dev-main
 ```
 ## 环境要求
 php:>=7.1
