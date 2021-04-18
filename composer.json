@@ -1,0 +1,37 @@
+{
+    "name": "love-dj/jwt-auth",
+    "description": "JSON Web Token Authentication for thinkphp",
+    "keywords": [
+        "auth",
+        "authentication",
+        "json web token",
+        "jwt",
+        "thinkphp"
+    ],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "心情love",
+            "email": "myhsj@qq.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "firebase/php-jwt": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Love\\JWTAuth\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.35|^5.0|^6.0",
+        "topthink/framework": "^5.1|^6.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Love\\JWTAuth\\Test\\": "tests/"
+        }
+    }
+}
