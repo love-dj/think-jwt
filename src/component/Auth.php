@@ -5,8 +5,8 @@ use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
-use Machengjun\JWTAuth\JWTAuthCode;
-use Machengjun\JWTAuth\JWTAuthException;
+use Love\JWTAuth\JWTAuthCode;
+use Love\JWTAuth\JWTAuthException;
 use \DomainException;
 use \InvalidArgumentException;
 use \UnexpectedValueException;
@@ -15,6 +15,7 @@ class Auth
 {
 
     protected $jwtSecret    = '';
+    protected $jwtKey       = '';
     protected $userlimit    = 3600; //一小时
     protected $refreshLimit = 604800; //七天
 
@@ -25,12 +26,13 @@ class Auth
      */
     public function __construct()
     {
-        $this->jwtSecret = Think::config('jwt_secret') ? Think::config('jwt_secret') : '';
+        $this->jwtSecret = config('jwt.secret') ? config('secret') : '';
         if ($this->jwtSecret == '') {
             throw new JWTAuthException('未设置jwt秘钥', JWTAuthCode::JWT_SECRET_MISS);
         }
-        $this->userlimit    = Think::config('jwt_use_limit') ? Think::config('jwt_use_limit') : 3600;
-        $this->refreshLimit = Think::config('jwt_refresh_limit') ? Think::config('jwt_refresh_limit') : 604800;
+        $this->jwtKey       = config('jwt.key') ? config('jwt.key') : '123456';
+        $this->userlimit    = config('jwt.use_limit') ? config('jwt.use_limit') : 3600;
+        $this->refreshLimit = config('jwt.refresh_limit') ? config('jwt.refresh_limit') : 604800;
     }
 
     /**
@@ -132,7 +134,7 @@ class Auth
     protected function _inBlacklist($jwt_ide)
     {
         $key = 'jwt_ide_' . $jwt_ide;
-        if (cache($key) === false) {
+        if (!cache($key)) {
             return false;
         }
         return true;

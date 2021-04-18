@@ -1,9 +1,9 @@
 <?php
 namespace Love\JWTAuth\Facade;
 
-use Machengjun\JWTAuth\Component\Auth as AuthCpt;
-use Machengjun\JWTAuth\Component\Singleton\Singleton;
-use Machengjun\JWTAuth\Component\Singleton\SingletonInterface;
+use Love\JWTAuth\Component\Auth as AuthCpt;
+use Love\JWTAuth\Component\Singleton\Singleton;
+use Love\JWTAuth\Component\Singleton\SingletonInterface;
 
 class Auth implements SingletonInterface
 {

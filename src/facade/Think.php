@@ -1,9 +1,9 @@
 <?php
 namespace Love\JWTAuth\Facade;
 
-use Machengjun\JWTAuth\Component\Singleton\Singleton;
-use Machengjun\JWTAuth\Component\Singleton\SingletonInterface;
-use Machengjun\JWTAuth\Component\Think as ThinkCpt;
+use Love\JWTAuth\Component\Singleton\Singleton;
+use Love\JWTAuth\Component\Singleton\SingletonInterface;
+use Love\JWTAuth\Component\Think as ThinkCpt;
 
 class Think implements SingletonInterface
 {

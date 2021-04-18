@@ -18,7 +18,6 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "topthink/framework": "^6.0",
         "firebase/php-jwt": "^5.0"
     },
     "autoload": {
@@ -27,11 +26,22 @@
         }
     },
     "require-dev": {
-       "phpunit/phpunit": "^5.0|^6.0"
+        "phpunit/phpunit": "4.8.35|^5.0|^6.0",
+        "topthink/framework": "^5.1|^6.0"
     },
     "autoload-dev": {
         "psr-4": {
             "Love\\JWTAuth\\Test\\": "tests/"
+        }
+    },
+    "extra": {
+        "think": {
+            "services": [
+                "Love\\jwt\\Service"
+            ],
+            "config": {
+                "jwt": "config/config.php"
+            }
         }
     }
 }
