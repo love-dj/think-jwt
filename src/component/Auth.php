@@ -25,7 +25,7 @@ class Auth
      */
     public function __construct()
     {
-        $this->jwtSecret = config('jwt.secret') ? config('secret') : '';
+        $this->jwtSecret = config('jwt.secret') ? config('jwt.secret') : '';
         if ($this->jwtSecret == '') {
             throw new JWTAuthException('未设置jwt秘钥', JWTAuthCode::JWT_SECRET_MISS);
         }
