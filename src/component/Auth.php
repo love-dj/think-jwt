@@ -15,7 +15,6 @@ class Auth
 {
 
     protected $jwtSecret    = '';
-    protected $jwtKey       = '';
     protected $userlimit    = 3600; //一小时
     protected $refreshLimit = 604800; //七天
 
@@ -30,7 +29,6 @@ class Auth
         if ($this->jwtSecret == '') {
             throw new JWTAuthException('未设置jwt秘钥', JWTAuthCode::JWT_SECRET_MISS);
         }
-        $this->jwtKey       = config('jwt.key') ? config('jwt.key') : '123456';
         $this->userlimit    = config('jwt.use_limit') ? config('jwt.use_limit') : 3600;
         $this->refreshLimit = config('jwt.refresh_limit') ? config('jwt.refresh_limit') : 604800;
     }
@@ -53,7 +51,7 @@ class Auth
             'data'    => $data,
         ];
         try {
-            return JWT::encode($payload, $this->jwtKey, 'HS256', $keyId);
+            return JWT::encode($payload, $this->jwtSecret, 'HS256', $keyId);
         } catch (DomainException $e) {
             throw new JWTAuthException('数据加密出错', JWTAuthCode::ENCRYPT_EORROR);
         }
@@ -109,7 +107,7 @@ class Auth
     public function analysisToken($token)
     {
         try {
-            $token_obj = JWT::decode($token, $this->jwtKey, array('HS256'));
+            $token_obj = JWT::decode($token, $this->jwtSecret, array('HS256'));
         } catch (InvalidArgumentException $e) {
             throw new JWTAuthException('未设置jwt秘钥', JWTAuthCode::JWT_SECRET_MISS);
         } catch (UnexpectedValueException $e) {

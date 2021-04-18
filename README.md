@@ -3,16 +3,16 @@
 ## 安装 
 使用composer管理依赖方式安装
 ```
-composer require love-dj/jwt-auth dev-main
+composer require love-dj/jwt-auth
 ```
 ## 环境要求
 php:>=7.1
 thinkphp:>=6.0
 ## 配置
 ```
-    'jwt_secret' => 'rolling in the deep'//加密秘钥
-    'jwt_use_limit' => 'rolling in the deep'//token过期时间
-    'jwt_refresh_limit' => 'rolling in the deep'//token可以用时间，（可刷新）
+    'secret' => 'rolling in the deep'//加密秘钥
+    'use_limit' => 'rolling in the deep'//token过期时间
+    'refresh_limit' => 'rolling in the deep'//token可以用时间，（可刷新）
   ```  
 ## 使用案例
 ```
