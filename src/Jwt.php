@@ -116,7 +116,7 @@ class Jwt
             throw new \Exception('token完全失效：' . $e->getMessage(), Jwt::TOKEN_EXPIRE_LONG);
         }
         if ($this->_inBlacklist($token_obj->jwt_ide) === true) {
-            throw new \Exception('token已被注销', Auth::TOKEN_LOGOUT);
+            throw new \Exception('token已被注销', Jwt::TOKEN_LOGOUT);
         }
         return $token_obj;
     }
