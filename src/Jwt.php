@@ -3,7 +3,6 @@ namespace think;
 
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
-use Firebase\JWT\JWT;
 use Firebase\JWT\SignatureInvalidException;
 use \InvalidArgumentException;
 use \UnexpectedValueException;
@@ -29,7 +28,7 @@ class Jwt
     {
         $this->jwtSecret = config('jwt.secret') ? config('jwt.secret') : '';
         if ($this->jwtSecret == '') {
-            throw new \Exception('未设置jwt秘钥', Auth::JWT_SECRET_MISS);
+            throw new \Exception('未设置jwt秘钥', Jwt::JWT_SECRET_MISS);
         }
         $this->userlimit    = config('jwt.use_limit') ? config('jwt.use_limit') : 3600;
         $this->refreshLimit = config('jwt.refresh_limit') ? config('jwt.refresh_limit') : 604800;
@@ -52,9 +51,9 @@ class Jwt
             'data'    => $data,
         ];
         try {
-            return JWT::encode($payload, $this->jwtSecret, 'HS256', $keyId);
+            return \Firebase\JWT\JWT::encode($payload, $this->jwtSecret, 'HS256', $keyId);
         } catch (\Exception $e) {
-            throw new \Exception('数据加密出错', Auth::ENCRYPT_EORROR);
+            throw new \Exception('数据加密出错', Jwt::ENCRYPT_EORROR);
         }
     }
 
@@ -67,7 +66,7 @@ class Jwt
     {
         $token_obj = $this->analysisToken($token);
         if ($token_obj->nbf - time() >= $this->userlimit) {
-            throw new \Exception('token过期需要刷新', Auth::TOKEN_EXPIRE);
+            throw new \Exception('token过期需要刷新', Jwt::TOKEN_EXPIRE);
         }
         return $this->object_to_array($token_obj);
     }
@@ -104,17 +103,17 @@ class Jwt
     public function analysisToken($token)
     {
         try {
-            $token_obj = JWT::decode($token, $this->jwtSecret, array('HS256'));
+            $token_obj = \Firebase\JWT\JWT::decode($token, $this->jwtSecret, array('HS256'));
         } catch (InvalidArgumentException $e) {
-            throw new \Exception('未设置jwt秘钥', Auth::JWT_SECRET_MISS);
+            throw new \Exception('未设置jwt秘钥', \think\Jwt::JWT_SECRET_MISS);
         } catch (UnexpectedValueException $e) {
-            throw new \Exception('token格式异常：' . $e->getMessage(), Auth::INVALID_TOKEN);
+            throw new \Exception('token格式异常：' . $e->getMessage(), Jwt::INVALID_TOKEN);
         } catch (SignatureInvalidException $e) {
-            throw new \Exception('token格式异常：' . $e->getMessage(), Auth::INVALID_TOKEN);
+            throw new \Exception('token格式异常：' . $e->getMessage(), Jwt::INVALID_TOKEN);
         } catch (BeforeValidException $e) {
-            throw new \Exception('token失效：' . $e->getMessage(), Auth::INVALID_TOKEN);
+            throw new \Exception('token失效：' . $e->getMessage(), Jwt::INVALID_TOKEN);
         } catch (ExpiredException $e) {
-            throw new \Exception('token完全失效：' . $e->getMessage(), Auth::TOKEN_EXPIRE_LONG);
+            throw new \Exception('token完全失效：' . $e->getMessage(), Jwt::TOKEN_EXPIRE_LONG);
         }
         if ($this->_inBlacklist($token_obj->jwt_ide) === true) {
             throw new \Exception('token已被注销', Auth::TOKEN_LOGOUT);
