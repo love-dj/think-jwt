@@ -20,10 +20,8 @@ thinkphp:>=6.0
 namespace app\index\controller;
 
 
-use Firebase\JWT\JWT;
 use think\Controller;
-use Love\JWTAuth\Facade\Auth;
-use Love\JWTAuth\JWTAuthException;
+use think\facade\Jwt;
 
 class McjController extends Controller {
 
@@ -33,8 +31,8 @@ class McjController extends Controller {
             'user_id'=>12
         ];
         try{
-            $res = Auth::getToken($data);
-        }catch (JWTAuthCode $e){
+            $res = Jwt::getToken($data);
+        }catch (\Exception $e){
             echo json_encode(['error_msg'=>'加密出错']);
         }
         dump($res);exit;
@@ -43,8 +41,8 @@ class McjController extends Controller {
     public function checkToken(){
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IlFzMkdJaVRnVldSVUZSV3MifQ.eyJuYmYiOjE1MzQyMzQyNDksImV4cCI6MTUzNDgzOTA0OSwiand0X2lkZSI6IlFzMkdJaVRnVldSVUZSV3MiLCJkYXRhIjp7InVzZXJfaWQiOjEyfX0.pond6EJ59yH9k3MJusVugg7W6hHx1Y_lLGawJBctflY';
         try{
-            $res =  Auth::check($token);
-        }catch (JWTAuthException $e){
+            $res =  Jwt::check($token);
+        }catch (\Exception $e){
             //token暂时失效，请刷新令牌
             if($e->getCode() === 20001){
                 echo json_encode(['error_msg'=>'请刷新token']);
@@ -59,8 +57,8 @@ class McjController extends Controller {
     public function refreshToken(){
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IlFzMkdJaVRnVldSVUZSV3MifQ.eyJuYmYiOjE1MzQyMzQyNDksImV4cCI6MTUzNDgzOTA0OSwiand0X2lkZSI6IlFzMkdJaVRnVldSVUZSV3MiLCJkYXRhIjp7InVzZXJfaWQiOjEyfX0.pond6EJ59yH9k3MJusVugg7W6hHx1Y_lLGawJBctflY';
         try{
-            $res =  Auth::refreshToken($token);
-        }catch (JWTAuthException $e){
+            $res =  Jwt::refreshToken($token);
+        }catch (\Exception $e){
             echo json_encode(['error_msg'=>'token不合法']);
         }
         dump($res);
@@ -69,8 +67,8 @@ class McjController extends Controller {
     public function killToken(){
         $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IlFzMkdJaVRnVldSVUZSV3MifQ.eyJuYmYiOjE1MzQyMzQyNDksImV4cCI6MTUzNDgzOTA0OSwiand0X2lkZSI6IlFzMkdJaVRnVldSVUZSV3MiLCJkYXRhIjp7InVzZXJfaWQiOjEyfX0.pond6EJ59yH9k3MJusVugg7W6hHx1Y_lLGawJBctflY';
         try{
-            Auth::killToken($token);
-        }catch (JWTAuthException $e){
+            Jwt::killToken($token);
+        }catch (Exception $e){
             echo json_encode(['error_msg'=>'token不合法']);
         }
         echo('logout success');
